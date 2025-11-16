@@ -1,0 +1,28 @@
+<main>
+  
+  <section class="barra">
+    <app-progress-bar progresso="10"></app-progress-bar>
+  </section>
+
+  <div class="chat">
+    <div class="chat-box" #chatBox>
+      <div class="chat-header">
+        <br />
+        <span>Ajudante</span>
+      </div>
+      @for (msg of msg; track msg) {
+      <div [ngClass]="msg.usuario === 'usuario' ? 'chat-usuario' : 'chat-bot'">
+        <p>
+          {{ msg.texto }}
+        </p>
+      </div>
+      }
+    </div>
+    <div class="chat-input">
+      <input [(ngModel)]="digitarMensagem" type="text" placeholder="Enviar" />
+      <button (click)="enviarInfos()">
+        Enviar
+      </button>
+    </div>
+  </div>
+</main>
