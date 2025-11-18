@@ -7,10 +7,12 @@ import { Mensagens } from './util/interfaces/mensagens.model';
 import { CommonModule } from '@angular/common';
 import { Gastos } from './util/interfaces/gastos.model';
 import { ProgressBarComponent } from "./util/componentes/progress-bar/progress-bar";
+import { StepperComponent } from "./util/componentes/stepper/stepper";
+import { Passo } from './util/interfaces/passo.model';
 
 @Component({
   selector: 'app-root',
-  imports: [FormsModule, CommonModule, ProgressBarComponent],
+  imports: [FormsModule, CommonModule, ProgressBarComponent, StepperComponent],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
@@ -22,10 +24,33 @@ export class App {
   @ViewChild('chatBox') private chatBox!: ElementRef;
   private shouldScroll = false;
 
+  progresso = 0;
+
   digitarMensagem: string = '';
   receita: Receitas[] = [];
   gastos: Gastos[] = [];
   msg: Mensagens[] = [];
+
+  passos: Passo[] = [
+  {
+    desc: 'Receitas',
+    numero: 1,
+    ativo: true,
+    executado: false
+  },
+  {
+    desc: 'Gastos',
+    numero: 2,
+    ativo: false,
+    executado: false
+  },
+  {
+    desc: 'Análise',
+    numero: 3,
+    ativo: false,
+    executado: false
+  }
+];
 
   constructor(private service: Service) { }
 
@@ -59,6 +84,8 @@ export class App {
 
       this.receberGastos();
 
+      this.avancarEtapa();
+
     } else if (infoUsuario === '') {
       this.service.emitirMensagem('Erro', 'Digite seus gastos para que seja feito o cálculo!', 'warning')
     }
@@ -71,13 +98,15 @@ export class App {
       this.digitarMensagem = '';
       infoUsuario = ''
 
+      this.avancarEtapa();
+
     }
   }
 
   receberGastos() {
     this.respostaBot('Agora envie seus gastos no mesmo modelo!')
 
-    this.scrollToBottom()
+    // this.scrollToBottom()
   }
 
   respostaBot(texto: string) {
@@ -87,8 +116,8 @@ export class App {
         usuario: 'bot'
       });
 
-      this.scrollToBottom();
-    }, 200);
+      // this.scrollToBottom();
+    }, 1000);
   }
 
   init(texto: string) {
@@ -122,4 +151,20 @@ export class App {
       }
     }
   }
+
+  avancarEtapa() {
+  var etapaAtual = this.passos.findIndex(s => s.ativo);
+
+  if (etapaAtual === -1) return;
+  // marca como concluida
+  this.passos[etapaAtual].executado = true;
+  this.passos[etapaAtual].ativo = false;
+  // ativa a próxima etapa 
+  if (this.passos[etapaAtual + 1]) {
+    this.passos[etapaAtual + 1].ativo = true;
+  }
+
+  var concluidos = this.passos.filter(s => s.executado).length;
+  this.progresso = (concluidos / this.passos.length) * 100;
+}
 }

@@ -1,0 +1,13 @@
+<div class="stepper">
+    @for (passo of passos; track passo; let i = $index) {
+    <div class="passo" [class.executado]="passo.executado"
+         [class.ativo]="passo.ativo">
+
+      <div class="circulo">{{ passo.numero }}</div>
+      <span class="label">{{ passo.desc }}</span>
+        @if(i < passos.length - 1) {
+         <div class="linha"></div>
+        }
+    </div>
+    }
+</div>

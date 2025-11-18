@@ -7,16 +7,16 @@ import { Component, Input } from '@angular/core';
   styleUrl: './progress-bar.css',
 })
 export class ProgressBarComponent {
-    @Input('progresso') progress: string;
+    @Input('progresso') progress: number;
     @Input('disable-percentage') disabledP: boolean;
 
 
   constructor() {
-    this.progress = '';
+    this.progress = 0;
     this.disabledP = false;
   }
 
-  progressoPorcentagem (progresso: string){
+  progressoPorcentagem (progresso: number){
     try{
       return Math.round(+ progresso * 100) / 100;
     }

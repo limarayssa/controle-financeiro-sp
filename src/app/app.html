@@ -1,7 +1,8 @@
 <main>
   
   <section class="barra">
-    <app-progress-bar progresso="10"></app-progress-bar>
+    <app-stepper [passos]="passos"></app-stepper>
+    <app-progress-bar [progresso]="progresso"></app-progress-bar>
   </section>
 
   <div class="chat">
@@ -19,7 +20,7 @@
       }
     </div>
     <div class="chat-input">
-      <input [(ngModel)]="digitarMensagem" type="text" placeholder="Enviar" />
+      <input [(ngModel)]="digitarMensagem" type="text" placeholder="Digite seus dados"  (keydown.enter)="enviarInfos()"/>
       <button (click)="enviarInfos()">
         Enviar
       </button>

@@ -15,7 +15,10 @@
        white-space: nowrap;
        overflow: hidden;
        padding: 0px;
+       height: 10;
        border-radius: 20px;
        background-color: #30a92e;
        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+       background: linear-gradient(90deg, #4caf50, #81c784);
+       transition: width 0.4s ease;
    }

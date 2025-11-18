@@ -1,0 +1,57 @@
+.stepper {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.passo {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+
+  .circulo {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: #dcdcdc;
+    color: #555;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.3s ease;
+  }
+
+  &.ativo .circulo {
+    background: lightblue;
+    color: white;
+  }
+
+  &.executado .circulo {
+    background: #4caf50;
+    color: white;
+  }
+
+  .label {
+    margin-top: 6px;
+    color: #555;
+    font-size: 14px;
+  }
+
+  .linha {
+    position: absolute;
+    top: 18px;
+    left: 50%;
+    width: 100%;
+    height: 4px;
+    background: #dcdcdc;
+    z-index: -1;
+  }
+
+  &.executado .linha {
+    background: #4caf50;
+  }
+}
