@@ -1,10 +1,8 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { ButtonModule } from 'primeng/button';
-import { StepperModule } from 'primeng/stepper';
 import { Passo } from '../../interfaces/passo.model';
 @Component({
   selector: 'app-stepper',
-  imports: [ButtonModule, StepperModule],
+  imports: [],
   templateUrl: './stepper.html',
   styleUrl: './stepper.css',
 })

@@ -1,16 +1,15 @@
 <main>
-  
   <section class="barra">
     <app-stepper [passos]="passos"></app-stepper>
     <app-progress-bar [progresso]="progresso"></app-progress-bar>
   </section>
 
   <div class="chat">
-    <div class="chat-box" #chatBox>
-      <div class="chat-header">
-        <br />
-        <span>Ajudante</span>
-      </div>
+    <div class="chat-header">
+      <br />
+      <span>Ajudante</span>
+    </div>
+    <div class="chat-box">
       @for (msg of msg; track msg) {
       <div [ngClass]="msg.usuario === 'usuario' ? 'chat-usuario' : 'chat-bot'">
         <p>
@@ -20,10 +19,19 @@
       }
     </div>
     <div class="chat-input">
-      <input [(ngModel)]="digitarMensagem" type="text" placeholder="Digite seus dados"  (keydown.enter)="enviarInfos()"/>
-      <button (click)="enviarInfos()">
-        Enviar
-      </button>
+      <input
+        [(ngModel)]="digitarMensagem"
+        type="text"
+        placeholder="Digite seus dados"
+        (keydown.enter)="enviarInfos()"
+      />
+      <button (click)="enviarInfos()">Enviar</button>
+    </div>
+    <div class="botoes">
+      <button>Meus gastos fixos</button>
+      <button>Quanto posso investir?</button>
+      <button>Dividir 70/20/10</button>
     </div>
   </div>
+
 </main>
