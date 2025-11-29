@@ -19,8 +19,7 @@ import { Passo } from './util/interfaces/passo.model';
 export class App {
   protected readonly title = signal('controle-financeiro');
 
-  @ViewChild('chatBox') private chatBox!: ElementRef;
-  private shouldScroll = false;
+
 
   progresso = 0;
 
@@ -126,11 +125,6 @@ export class App {
     });
   }
 
-  scrollToBottom() {
-  const el = this.chatBox?.nativeElement;
-  if (!el) return;
-  el.scrollTop = el.scrollHeight;
-  }
 
   pegarValores(texto: string, tipo: 'receita' | 'gasto') {
     //word, space, valor positivo com virgula ou ponto

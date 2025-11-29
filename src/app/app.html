@@ -1,8 +1,22 @@
+<section class="barra">
+  <app-stepper [passos]="passos"></app-stepper>
+  <!-- <app-progress-bar [progresso]="progresso"></app-progress-bar> -->
+</section>
+
 <main>
-  <section class="barra">
-    <app-stepper [passos]="passos"></app-stepper>
-    <app-progress-bar [progresso]="progresso"></app-progress-bar>
-  </section>
+
+  <article class="resumo">
+    <div class="  ">
+      <h1>Titulo</h1>
+    </div>
+    <div id="content">
+      <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus auctor est non tincidunt tempor. Morbi et pulvinar sem. Morbi mauris lectus, sodales vitae dolor et, vehicula dictum augue. Vestibulum vitae mattis ipsum. Vivamus ornare enim sit amet turpis hendrerit varius. Ut eget pharetra mauris. Donec sollicitudin aliquet neque sit amet tincidunt.</span>
+      <br>
+      <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus auctor est non tincidunt tempor. Morbi et pulvinar sem. Morbi mauris lectus, sodales vitae dolor et, vehicula dictum augue. Vestibulum vitae mattis ipsum. Vivamus ornare enim sit amet turpis hendrerit varius. Ut eget pharetra mauris. Donec sollicitudin aliquet neque sit amet tincidunt.</span>
+      <br>
+      <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus auctor est non tincidunt tempor. Morbi et pulvinar sem. Morbi mauris lectus, sodales vitae dolor et, vehicula dictum augue. Vestibulum vitae mattis ipsum. Vivamus ornare enim sit amet turpis hendrerit varius. Ut eget pharetra mauris. Donec sollicitudin aliquet neque sit amet tincidunt.</span>
+    </div>
+  </article>
 
   <div class="chat">
     <div class="chat-header">
@@ -19,12 +33,8 @@
       }
     </div>
     <div class="chat-input">
-      <input
-        [(ngModel)]="digitarMensagem"
-        type="text"
-        placeholder="Digite seus dados"
-        (keydown.enter)="enviarInfos()"
-      />
+      <input [(ngModel)]="digitarMensagem" type="text" placeholder="Digite seus dados"
+        (keydown.enter)="enviarInfos()" />
       <button (click)="enviarInfos()">Enviar</button>
     </div>
     <div class="botoes">
