@@ -1,0 +1,26 @@
+{
+  "name": "controle-financeiro-api",
+  "version": "1.0.0",
+  "description": "API em Node.JS do projeto de controle financeiro",
+  "homepage": "https://github.com/limarayssa/controle-financeiro-sp#readme",
+  "bugs": {
+    "url": "https://github.com/limarayssa/controle-financeiro-sp/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/limarayssa/controle-financeiro-sp.git"
+  },
+  "license": "ISC",
+  "author": "rayssa lima",
+  "type": "commonjs",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "express": "^5.1.0",
+    "node-fetch": "^3.3.2"
+  }
+}
