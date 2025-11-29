@@ -73,10 +73,9 @@ export class App {
 
     if (!infoUsuario) return;
 
-    // Adiciona mensagem do usuário no chat
     this.msg.push({ texto: infoUsuario, usuario: 'usuario' });
 
-    // Verifica etapa atual
+    // verifica etapa atual
     const etapaAtual = this.passos.findIndex((s) => s.ativo);
     if (etapaAtual === -1) return;
 
@@ -96,6 +95,9 @@ export class App {
       } else {
         this.pegarValores(infoUsuario, 'gasto');
       }
+    } else if (etapaAtual === 2) {
+        this.respostaBot('Entendido, gerando o resumo!!');
+        this.avancarEtapa();
     }
 
     // Limpa campo
