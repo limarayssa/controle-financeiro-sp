@@ -9,6 +9,7 @@ import { Gastos } from './util/interfaces/gastos.model';
 import { ProgressBarComponent } from "./util/componentes/progress-bar/progress-bar";
 import { StepperComponent } from "./util/componentes/stepper/stepper";
 import { Passo } from './util/interfaces/passo.model';
+import { Metas } from './util/interfaces/metas.model';
 
 @Component({
   selector: 'app-root',
@@ -26,6 +27,7 @@ export class App {
   digitarMensagem: string = '';
   receita: Receitas[] = [];
   gastos: Gastos[] = [];
+  metas: Metas[] = [];
   msg: Mensagens[] = [];
 
   passos: Passo[] = [
@@ -55,9 +57,9 @@ export class App {
     },
   ];
 
-  constructor(private service: Service,   private cdr: ChangeDetectorRef,
-  private zone: NgZone,
-  private appRef: ApplicationRef) { }
+  constructor(private service: Service, private cdr: ChangeDetectorRef,
+    private zone: NgZone,
+    private appRef: ApplicationRef) { }
 
   ngOnInit() {
     this.init(
@@ -96,8 +98,32 @@ export class App {
         this.pegarValores(infoUsuario, 'gasto');
       }
     } else if (etapaAtual === 2) {
+      if (infoUsuario === '.') {
         this.respostaBot('Entendido, gerando o resumo!!');
         this.avancarEtapa();
+
+        debugger
+        const infoFinanceira = {
+          receita: this.receita,
+          gasto: this.gastos,
+          metas: this.metas
+        };
+
+        this.service.emitirResumo(infoFinanceira).subscribe({
+          next: (res) => {
+            var resultado = res;
+            console.log('Resposta do Gemini:', res);
+          },
+          error: (err) => {
+            console.error('Erro na API:', err);
+          }
+        });
+
+
+      } else {
+        this.pegarValores(infoUsuario, 'meta');
+      }
+
     }
 
     // Limpa campo
@@ -112,12 +138,12 @@ export class App {
 
   respostaBot(texto: string) {
     setTimeout(() => {
-    this.zone.run(() => {
-      this.msg.push({ texto, usuario: 'bot' });
-      this.cdr.markForCheck();
-      this.appRef.tick();  // força ciclo de detecção global
-    });
-  }, 500);
+      this.zone.run(() => {
+        this.msg.push({ texto, usuario: 'bot' });
+        this.cdr.markForCheck();
+        this.appRef.tick();  // força ciclo de detecção global
+      });
+    }, 500);
   }
 
   init(texto: string) {
@@ -128,7 +154,7 @@ export class App {
   }
 
 
-  pegarValores(texto: string, tipo: 'receita' | 'gasto') {
+  pegarValores(texto: string, tipo: 'receita' | 'gasto' | 'meta') {
     //word, space, valor positivo com virgula ou ponto
     const regex = /^(\w+)\s+(\d+(?:[.,]\d{1,2})?)$/i;
 
@@ -154,8 +180,10 @@ export class App {
 
     if (tipo === 'receita') {
       this.receita.push({ descricao, valor });
-    } else {
+    } else if (tipo === 'gasto'){
       this.gastos.push({ descricao, valor });
+    } else {
+      this.metas.push({ descricao, valor });
     }
   }
 

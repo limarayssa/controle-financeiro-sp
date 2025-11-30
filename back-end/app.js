@@ -1,7 +1,7 @@
 const express = require('express');
 const dotenv = require('dotenv');
 const cors = require('cors');
-const fetch = require('node-fetch');
+const { GoogleGenerativeAI } = require("@google/generative-ai");
 
 dotenv.config();
 const PORT = process.env.PORT || 3000;
@@ -10,36 +10,42 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+
 app.post("/api/finance", async (req, res) => {
-  const { receitas, gastos, metas } = req.body;
+  const { receita, gasto, metas } = req.body;
+
+  console.log(receita);
+  console.log(gasto);
+  console.log(metas);
+
+  debugger
 
   // aqui você monta o prompt para o Gemini
   const prompt = `
     Analise os seguintes dados financeiros:
-    Receitas: ${receitas}
-    Gastos: ${JSON.stringify(gastos)}
+    Receitas: ${JSON.stringify(receita)}
+    Gastos: ${JSON.stringify(gasto)}
     Metas: ${JSON.stringify(metas)}
 
-    Quero que você:
-    1. Liste os gastos fixos.
-    2. Calcule quanto sobra para investir.
-    3. Divida a receita no modelo 70/20/10.
-    4. Faça um resumo do perfil.
+    E gere um resumo de 10 linhas no máximo sobre o perfil do usuário e reomendação de investimento.
   `;
 
   try {
-    // chamada para a API do Gemini
-    const response = await fetch("https://api.gemini.com/v1/analyze", {
-      method: "POST",
-      headers: {
-        "Authorization": `Bearer ${process.env.GEMINI_API_KEY}`,
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ prompt })
-    });
+    // seleciona o modelo Gemini
+    // const models = await genAI.listModels();
+    // console.log(models);
+    const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
 
-    const data = await response.json();
-    res.json(data); // devolve para o Angular
+    // gera o conteúdo
+    const result = await model.generateContent(prompt);
+
+    // pega o texto da resposta
+    const resposta = result.response.text();
+
+    console.log(resposta);
+
+    res.json({ resposta });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Erro ao consultar Gemini API" });

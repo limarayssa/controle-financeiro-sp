@@ -23,7 +23,7 @@ export class Service {
     })
   }
 
-    analyzeFinance(data: any): Observable<any> {
+    emitirResumo(data: any): Observable<any> {
     return this.http.post<any>(this.apiUrl, data);
   }
 
