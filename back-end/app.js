@@ -15,11 +15,6 @@ const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 app.post("/api/finance", async (req, res) => {
   const { receita, gasto, metas } = req.body;
 
-  console.log(receita);
-  console.log(gasto);
-  console.log(metas);
-
-  debugger
 
   const prompt = `
     Analise os seguintes dados financeiros:
@@ -36,12 +31,10 @@ app.post("/api/finance", async (req, res) => {
     const result = await model.generateContent(prompt);
 
     const resposta = result.response.text();
-
     console.log(resposta);
 
     res.json({ resposta });
   } catch (error) {
-    console.error(error);
     res.status(500).json({ error: "Erro ao consultar Gemini API" });
   }
 });

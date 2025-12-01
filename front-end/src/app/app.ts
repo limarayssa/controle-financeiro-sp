@@ -100,12 +100,22 @@ export class App {
           gasto: this.gastos,
         };
 
+        this.zone.run(() => {
+         
+
+          this.cdr.markForCheck();
+        });
+
         this.service.emitirResumo(infoFinanceira).subscribe({
           next: (res) => {
-            this.resultado = res.resposta.replace(/\n/g, '<br>')
-  .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-            console.log('Resposta do Gemini:', res);
-            console.log(this.resultado);
+            
+        this.zone.run(() => {
+        
+          this.resultado = res.resposta.replace(/\n/g, '<br>')
+          this.cdr.detectChanges();
+          console.log(this.resultado);
+          this.cdr.markForCheck();
+        });
           },
           error: (err) => {
             console.error('Erro na API:', err);
@@ -194,16 +204,16 @@ export class App {
   }
 
   divisaoValores() {
-  const totalReceita = this.receita.reduce((acc, r) => acc + r.valor, 0);
+    const totalReceita = this.receita.reduce((acc, r) => acc + r.valor, 0);
 
-  const setenta = totalReceita * 0.7;
-  const vinte   = totalReceita * 0.2;
-  const dez     = totalReceita * 0.1;
+    const setenta = totalReceita * 0.7;
+    const vinte = totalReceita * 0.2;
+    const dez = totalReceita * 0.1;
 
-  this.infos.push({
-    titulo: 'Divisão 70/20/10',
-    texto: `Essenciais: R$ ${setenta.toFixed(2)} | Investimentos: R$ ${vinte.toFixed(2)} | Lazer: R$ ${dez.toFixed(2)}`
-  });
+    this.infos.push({
+      titulo: 'Divisão 70/20/10',
+      texto: `Essenciais: R$ ${setenta.toFixed(2)} | Investimentos: R$ ${vinte.toFixed(2)} | Lazer: R$ ${dez.toFixed(2)}`
+    });
   }
 
   gastosFixos() {
@@ -223,11 +233,12 @@ export class App {
 
     this.infos.push({
       titulo: 'Quanto posso investir?',
-      texto: `Receita: R$ ${totalReceita.toFixed(2)} | Gastos: R$ ${totalGastos.toFixed(2)} | Sobra: R$ ${sobra.toFixed(2)}`
+      texto: `Receita: R$ ${totalReceita.toFixed(2)} | Gastos: R$ ${totalGastos.toFixed(2)} | Dinheiro disponível: R$ ${sobra.toFixed(2)}`
     });
   }
 
   copiarTexto(texto: string) {
-    this.clip.copy(texto);
+    var correcao = texto.replace(/<br>/g, ' ')
+    this.clip.copy(correcao);
   }
 }

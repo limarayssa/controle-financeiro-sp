@@ -2,9 +2,8 @@ main {
   display: flex;
   flex-direction: row;
   align-items: center;
-  height: 100vh;
-  height: calc(100vh - 60px);
-  font-family: Roboto;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  margin: 20px;
 }
 
 .barra {
@@ -24,8 +23,9 @@ section.barra {
   height: 50vh;
   /* border-left: 2px solid #ccc; */
   background-color: #f9f9f9;
-  width: 30%;
-  max-width: 30%;
+  /* width: 30%; */
+  max-width: 35%;
+  min-width: 35%;
   max-height: 500px;
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
@@ -60,12 +60,10 @@ section.barra {
   flex: 1;
   padding: 10px;
   font-size: 12px;
-  /* font-family: Roboto; */
 }
 
 .chat-input button {
   padding: 10px 20px;
-  /* font-family: Roboto; */
   font-size: 12px;
   cursor: pointer;
 }
