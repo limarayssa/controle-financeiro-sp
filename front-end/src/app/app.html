@@ -44,7 +44,7 @@
       <br />
       <span>Ajudante</span>
     </div>
-    <div class="chat-box">
+    <div class="chat-box" #chatBox>
       @for (msg of msg; track msg) {
       <div [ngClass]="msg.usuario === 'usuario' ? 'chat-usuario' : 'chat-bot'">
         <p>

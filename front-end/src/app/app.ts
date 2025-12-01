@@ -20,6 +20,8 @@ import { Clipboard } from "@angular/cdk/clipboard";
 export class App {
   protected readonly title = signal('controle-financeiro');
 
+  @ViewChild('chatBox') private chatBox!: ElementRef;
+
 
 
   progresso = 0;
@@ -62,10 +64,14 @@ export class App {
 
   ngOnInit() {
     this.init(
-      'Olá! Nós somos seu assistente financeiro, envie primeiro suas receitas no modelo palavra-valor, uma por linha:'
+      'Olá! Nós somos seu assistente financeiro, envie primeiro suas receitas no modelo palavra-valor, uma por linha, como no exemplo abaixo:'
     );
     this.init('salario 2500');
-    this.init("Envie um ponto '.' quando terminar para proceder");
+    this.init("Ao terminar, envie um ponto '.' para proceder");
+  }
+
+  ngAfterViewInit() {
+    this.scrollToBottom();
   }
 
 
@@ -82,16 +88,17 @@ export class App {
 
     if (etapaAtual === 0) {
       // Receitas
-      if (infoUsuario === '.') {
-        this.respostaBot('Receitas registradas! Agora envie seus gastos no modelo palavra-valor:');
+      if (infoUsuario === '.' && this.receita.length > 0) {
+        this.respostaBot('Receitas registradas! Agora envie seus gastos no mesmo modelo:');
+        this.respostaBot("Ao terminar, envie um ponto '.' novamente para finalizar");
         this.avancarEtapa();
       } else {
         this.pegarValores(infoUsuario, 'receita');
       }
     } else if (etapaAtual === 1) {
       // Gastos
-      if (infoUsuario === '.') {
-        this.respostaBot('Entendido, gerando o resumo!!');
+      if (infoUsuario === '.' && this.gastos.length > 0) {
+        this.respostaBot('Entendido, gerando o resumo!');
         this.avancarEtapa();
 
         debugger
@@ -100,22 +107,16 @@ export class App {
           gasto: this.gastos,
         };
 
-        this.zone.run(() => {
-         
-
-          this.cdr.markForCheck();
-        });
-
         this.service.emitirResumo(infoFinanceira).subscribe({
           next: (res) => {
-            
-        this.zone.run(() => {
-        
-          this.resultado = res.resposta.replace(/\n/g, '<br>')
-          this.cdr.detectChanges();
-          console.log(this.resultado);
-          this.cdr.markForCheck();
-        });
+
+            this.zone.run(() => {
+
+              this.resultado = res.resposta.replace(/\n/g, '<br>')
+              this.cdr.detectChanges();
+              console.log(this.resultado);
+              this.cdr.markForCheck();
+            });
           },
           error: (err) => {
             console.error('Erro na API:', err);
@@ -132,10 +133,17 @@ export class App {
     this.digitarMensagem = '';
   }
 
-  receberGastos() {
-    this.respostaBot('Agora envie seus gastos no mesmo modelo!');
+  scrollToBottom = () => {
+    setTimeout(() => {
+      if (this.chatBox?.nativeElement) {
+        try {
+          this.chatBox.nativeElement.scrollTop = this.chatBox.nativeElement.scrollHeight;
+        } catch (err) {
+          console.log('Erro scroll' + err)
+        }
+      }
+    }, 100);
 
-    // this.scrollToBottom()
   }
 
   respostaBot(texto: string) {
@@ -144,6 +152,7 @@ export class App {
         this.msg.push({ texto, usuario: 'bot' });
         this.cdr.markForCheck();
         this.appRef.tick();  // força ciclo de detecção global
+        this.scrollToBottom();
       });
     }, 500);
   }
@@ -160,6 +169,8 @@ export class App {
     //word, space, valor positivo com virgula ou ponto
     const regex = /^(\w+)\s+(\d+(?:[.,]\d{1,2})?)$/i;
 
+    this.scrollToBottom();
+
     const match = regex.exec(texto);
     if (!match) {
       this.respostaBot('Formato inválido! Use apenas uma palavra seguida de um valor positivo, ex: aluguel 1200');
@@ -174,7 +185,7 @@ export class App {
       this.respostaBot('Valores negativos não são permitidos!');
       return;
     }
-    // Verificação de múltiplas palavras (já garantida pelo regex, mas reforçamos)
+    // verificação de múltiplas palavras
     if (/\s/.test(descricao)) {
       this.respostaBot('A descrição deve ser apenas uma palavra!');
       return;
