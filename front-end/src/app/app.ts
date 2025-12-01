@@ -206,7 +206,6 @@ export class App {
   avancarEtapa() {
     var etapaAtual = this.passos.findIndex((s) => s.ativo);
 
-    if (etapaAtual === -1) return;
     // marca como concluida
     this.passos[etapaAtual].executado = true;
     this.passos[etapaAtual].ativo = false;
