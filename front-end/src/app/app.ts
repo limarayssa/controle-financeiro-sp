@@ -10,10 +10,11 @@ import { StepperComponent } from "./util/componentes/stepper/stepper";
 import { Passo } from './util/interfaces/passo.model';
 import { Infos } from './util/interfaces/infos.model';
 import { Clipboard } from "@angular/cdk/clipboard";
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-root',
-  imports: [FormsModule, CommonModule, StepperComponent],
+  imports: [FormsModule, CommonModule, StepperComponent, MatProgressSpinner],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
@@ -33,6 +34,7 @@ export class App {
   infos: Infos[] = [];
 
   resultado: string = '';
+  carregando: boolean = false;
 
 
   passos: Passo[] = [
@@ -98,8 +100,10 @@ export class App {
     } else if (etapaAtual === 1) {
       // Gastos
       if (infoUsuario === '.' && this.gastos.length > 0) {
-        this.respostaBot('Entendido, gerando o resumo!');
+        this.respostaBot('Entendido, gerando o resumo! Aguarde uns segundos');
         this.avancarEtapa();
+
+        this.carregando = true;
 
         debugger
         const infoFinanceira = {
@@ -116,6 +120,7 @@ export class App {
               this.cdr.detectChanges();
               console.log(this.resultado);
               this.cdr.markForCheck();
+              this.carregando = false;
             });
           },
           error: (err) => {

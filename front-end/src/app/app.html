@@ -39,6 +39,12 @@
     </ul>
   </article>
 
+  @if (carregando) {
+    <div class="spinner">
+      <mat-spinner></mat-spinner>
+    </div>
+  }
+
   <div class="chat">
     <div class="chat-header">
       <br />
