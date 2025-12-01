@@ -7,39 +7,35 @@
 
   <article class="resumo">
     <ul class="cards">
+      @if (resultado !== '') {
       <li class="cards_item">
-        <div class="card">
-
-          <div class="card_content">
-            <h2 class="card_title">Resumo</h2>
-            <div class="card_text">
-              <p>Dig into the freshest veggies of the season! This salad-in-a-jar features a mixture of leafy greens and
-                seasonal vegetables, fresh from the farmer's market.</p>
-              <p>Served with your choice of dressing on the side: housemade ranch, cherry balsamic vinaigrette, creamy
-                chipotle, avocado green goddess, or honey mustard. Add your choice of protein for $2 more. </p>
+          <div class="card">
+            <div class="card_content">
+                <img class="copy" src="copy-clipboard.svg" alt="ícone copiar para área de transferência" (click)="copiarTexto(resultado)" />
+              <h2 class="card_title">Resumo do seu perfil</h2>
+              <div class="card_text">
+                <p [innerHTML]="resultado">{{resultado}}</p>
+              </div> 
             </div>
           </div>
-        </div>
-      </li>
+        </li>
+      }
 
-      <li class="cards_item">
-        <div class="card">
-          <div class="card_content">
-            <h2 class="card_title">Meus gastos fixos</h2>
-            <div class="card_text">
-              <p>All great meals take time, but this one takes it to the next level! More than 650 hours of fermenting,
-                brining, aging, and curing goes into each and every one of our legendary Reuben sandwiches.
-              </p>
-              <h2 class="card_title">Quanto posso investir?</h2>
-              <p>Every element of this extraordinary sandwich is handcrafted in our kitchens, from the rye bread baked
-                from our secret recipe to the cave-aged Swiss cheese, right down to the pickle. The only thing we didn't
-                make on the premises is the toothpick ( but we're looking into how to do that). </p>
-              <h2 class="card_title">Divisão 70/20/10</h2>
-              <p>Add a side of french fries or sweet potato fries for $2 more, or our housemade pub chips for $1.</p>
+      @if(infos.length > 0){
+        <li class="cards_item">
+          <div class="card">
+            <div class="card_content">
+                @for(info of infos; track info) {
+                <h2 class="card_title">{{info.titulo}}</h2>
+                <div class="card_text">
+                  <p>{{info.texto}}
+                  </p>
+                </div>
+              }
+              </div>
             </div>
-          </div>
-        </div>
-      </li>
+          </li>
+      }
     </ul>
   </article>
 
@@ -63,9 +59,9 @@
       <button (click)="enviarInfos()">Enviar</button>
     </div>
     <div class="botoes">
-      <button>Meus gastos fixos</button>
-      <button>Quanto posso investir?</button>
-      <button>Dividir 70/20/10</button>
+      <button (click)="gastosFixos()">Meus gastos fixos</button>
+      <button (click)="valorInvestir()">Quanto posso investir?</button>
+      <button (click)="divisaoValores()">Dividir 70/20/10</button>
     </div>
   </div>
 

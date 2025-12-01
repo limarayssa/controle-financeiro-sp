@@ -6,14 +6,14 @@ import { Receitas } from './util/interfaces/receita.model';
 import { Mensagens } from './util/interfaces/mensagens.model';
 import { CommonModule } from '@angular/common';
 import { Gastos } from './util/interfaces/gastos.model';
-import { ProgressBarComponent } from "./util/componentes/progress-bar/progress-bar";
 import { StepperComponent } from "./util/componentes/stepper/stepper";
 import { Passo } from './util/interfaces/passo.model';
-import { Metas } from './util/interfaces/metas.model';
+import { Infos } from './util/interfaces/infos.model';
+import { Clipboard } from "@angular/cdk/clipboard";
 
 @Component({
   selector: 'app-root',
-  imports: [FormsModule, CommonModule, ProgressBarComponent, StepperComponent],
+  imports: [FormsModule, CommonModule, StepperComponent],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
@@ -27,8 +27,11 @@ export class App {
   digitarMensagem: string = '';
   receita: Receitas[] = [];
   gastos: Gastos[] = [];
-  metas: Metas[] = [];
   msg: Mensagens[] = [];
+  infos: Infos[] = [];
+
+  resultado: string = '';
+
 
   passos: Passo[] = [
     {
@@ -44,22 +47,18 @@ export class App {
       executado: false,
     },
     {
-      desc: 'Metas',
+      desc: 'Análise',
       numero: 3,
       ativo: false,
       executado: false,
-    },
-    {
-      desc: 'Análise',
-      numero: 4,
-      ativo: false,
-      executado: false,
-    },
+    }
   ];
 
   constructor(private service: Service, private cdr: ChangeDetectorRef,
     private zone: NgZone,
-    private appRef: ApplicationRef) { }
+    private appRef: ApplicationRef,
+    private clip: Clipboard
+  ) { }
 
   ngOnInit() {
     this.init(
@@ -92,13 +91,6 @@ export class App {
     } else if (etapaAtual === 1) {
       // Gastos
       if (infoUsuario === '.') {
-        this.respostaBot('Gastos registrados! Vamos para a etapa de metas.');
-        this.avancarEtapa();
-      } else {
-        this.pegarValores(infoUsuario, 'gasto');
-      }
-    } else if (etapaAtual === 2) {
-      if (infoUsuario === '.') {
         this.respostaBot('Entendido, gerando o resumo!!');
         this.avancarEtapa();
 
@@ -106,23 +98,23 @@ export class App {
         const infoFinanceira = {
           receita: this.receita,
           gasto: this.gastos,
-          metas: this.metas
         };
 
         this.service.emitirResumo(infoFinanceira).subscribe({
           next: (res) => {
-            var resultado = res;
+            this.resultado = res.resposta.replace(/\n/g, '<br>')
+  .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
             console.log('Resposta do Gemini:', res);
+            console.log(this.resultado);
           },
           error: (err) => {
             console.error('Erro na API:', err);
           }
         });
-
-
       } else {
-        this.pegarValores(infoUsuario, 'meta');
+        this.pegarValores(infoUsuario, 'gasto');
       }
+
 
     }
 
@@ -180,10 +172,8 @@ export class App {
 
     if (tipo === 'receita') {
       this.receita.push({ descricao, valor });
-    } else if (tipo === 'gasto'){
+    } else if (tipo === 'gasto') {
       this.gastos.push({ descricao, valor });
-    } else {
-      this.metas.push({ descricao, valor });
     }
   }
 
@@ -201,5 +191,43 @@ export class App {
 
     var concluidos = this.passos.filter((s) => s.executado).length;
     this.progresso = (concluidos / this.passos.length) * 100;
+  }
+
+  divisaoValores() {
+  const totalReceita = this.receita.reduce((acc, r) => acc + r.valor, 0);
+
+  const setenta = totalReceita * 0.7;
+  const vinte   = totalReceita * 0.2;
+  const dez     = totalReceita * 0.1;
+
+  this.infos.push({
+    titulo: 'Divisão 70/20/10',
+    texto: `Essenciais: R$ ${setenta.toFixed(2)} | Investimentos: R$ ${vinte.toFixed(2)} | Lazer: R$ ${dez.toFixed(2)}`
+  });
+  }
+
+  gastosFixos() {
+    if (this.gastos.length === 0) {
+      this.infos.push({ titulo: 'Gastos fixos', texto: 'Nenhum gasto informado.' });
+      return;
+    }
+
+    const listaGastos = this.gastos.map(gastos => `${gastos.descricao}: R$ ${gastos.valor.toFixed(2)}`).join(', ');
+    this.infos.push({ titulo: 'Gastos fixos', texto: listaGastos });
+  }
+
+  valorInvestir() {
+    const totalReceita = this.receita.reduce((acc, r) => acc + r.valor, 0);
+    const totalGastos = this.gastos.reduce((acc, g) => acc + g.valor, 0);
+    const sobra = totalReceita - totalGastos;
+
+    this.infos.push({
+      titulo: 'Quanto posso investir?',
+      texto: `Receita: R$ ${totalReceita.toFixed(2)} | Gastos: R$ ${totalGastos.toFixed(2)} | Sobra: R$ ${sobra.toFixed(2)}`
+    });
+  }
+
+  copiarTexto(texto: string) {
+    this.clip.copy(texto);
   }
 }

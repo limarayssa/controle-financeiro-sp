@@ -102,8 +102,8 @@ section.barra {
   background-color: #f94f6d;
 }
 
-.chat p,
-button {
+.chat .chat-box p,
+.chat button {
   color: black;
   padding: 15px 5px 15px 5px;
   margin: 10px;
@@ -124,19 +124,6 @@ button {
   flex-wrap: wrap;
 }
 
-/* 
-.resumo {
-  width: 30%;
-  background: #eef;
-  padding: 20px;
-  margin:8%;
-  height: 70%;
-  /* opacity: 0; */
-/* transform: translateX(-100%);
-  transition: all 0.5s ease; }
-  
-*/
-
 
 *,
 *::before,
@@ -145,7 +132,7 @@ button {
 }
 
 .resumo {
-  max-width: 1200px;
+  max-width: 60%;
   margin: 0 auto;
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 
@@ -198,4 +185,15 @@ p.card_content {
 h2.card_title {
   font-size: 1.3em;
   font-weight: bold;
+}
+
+.copy {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  vertical-align: middle;
+  margin: 0 5px;
+  display: inline-block;
+  position: relative;
+  left: 90%;
 }

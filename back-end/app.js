@@ -21,26 +21,20 @@ app.post("/api/finance", async (req, res) => {
 
   debugger
 
-  // aqui você monta o prompt para o Gemini
   const prompt = `
     Analise os seguintes dados financeiros:
     Receitas: ${JSON.stringify(receita)}
     Gastos: ${JSON.stringify(gasto)}
-    Metas: ${JSON.stringify(metas)}
 
-    E gere um resumo de 10 linhas no máximo sobre o perfil do usuário e reomendação de investimento.
+    E gere um resumo texto de 10 linhas no máximo sobre o perfil do usuário e recomendação de investimento.
   `;
 
   try {
-    // seleciona o modelo Gemini
-    // const models = await genAI.listModels();
-    // console.log(models);
     const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
 
     // gera o conteúdo
     const result = await model.generateContent(prompt);
 
-    // pega o texto da resposta
     const resposta = result.response.text();
 
     console.log(resposta);
