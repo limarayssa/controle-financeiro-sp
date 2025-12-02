@@ -1,205 +1,251 @@
-main {
+/* =======================================
+   LAYOUT DINÂMICO
+   - Centraliza o Ajudante quando não há resumo
+   - Coloca Resumo + Ajudante lado a lado quando existir resumo
+========================================== */
+
+.layout-dinamico {
   display: flex;
-  flex-direction: row;
-  align-items: center;
-  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-  margin: 20px;
-}
-
-.barra {
-  width: 70%;
-}
-
-section.barra {
+  flex-direction: column;      /* Começa em coluna */
+  align-items: center;         /* Centraliza o Ajudante */
+  gap: 25px;
   width: 100%;
 }
 
-.chat {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 20px;
-  height: 50vh;
-  /* border-left: 2px solid #ccc; */
-  background-color: #f9f9f9;
-  /* width: 30%; */
-  max-width: 35%;
-  min-width: 35%;
-  max-height: 500px;
-  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+/* Quando tiver resumo (resultado !== '') -> lado a lado */
+.layout-dinamico.com-resumo {
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-start;
 }
 
-@media only screen and (max-width: 1100px) {
-  .chat {
-    width: 50%;
-  }
+/* Largura padrão dos blocos */
+.resumo,
+.chat {
+  width: 90%;
+  max-width: 650px;
+}
+
+/* Quando estiver lado a lado, cada um ocupa ~metade */
+.layout-dinamico.com-resumo .resumo,
+.layout-dinamico.com-resumo .chat {
+  width: 45%;
+}
+
+
+/* =======================================
+   GERAL
+========================================== */
+
+body, main {
+  background-color: #F5F7FA;
+  font-family: "Inter", Arial, sans-serif;
+  color: #2A2A2A;
+}
+
+section.barra {
+  padding: 20px 0;
+  background: #FFFFFF;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  margin-bottom: 20px;
+}
+
+
+/* =======================================
+   CARDS (RESUMO)
+========================================== */
+
+.cards {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.cards_item {
+  margin-bottom: 20px;
+}
+
+.card {
+  background: #FFFFFF;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+}
+
+.card_title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #1A4F7A;          /* Azul petróleo */
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+/* Ícone de copiar pequeno e alinhado */
+.copy {
+  width: 22px;
+  height: 22px;
+  cursor: pointer;
+  opacity: 0.85;
+  transition: 0.2s ease;
+}
+
+.copy:hover {
+  opacity: 0.6;
+  transform: scale(1.08);
+}
+
+.card_text p {
+  margin-top: 6px;
+  line-height: 1.5;
+  color: #2A2A2A;
+}
+
+
+/* =======================================
+   SPINNER
+========================================== */
+
+.spinner {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+
+/* =======================================
+   CHAT / AJUDANTE
+========================================== */
+
+.chat {
+  background: #FFFFFF;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+}
+
+.chat-header-title {
+  color: #1A4F7A;
+  font-size: 1.3rem;
+  font-weight: 700;
 }
 
 .chat-box {
-  flex: 1;
-  overflow-y: scroll;
-  margin-bottom: 10px;
-  background: white;
-  border: 1px solid #ccc;
-  border-radius: 3px;
-  display: flex;
-  flex-direction: column;
-  padding: 10px;
+  background: #F5F7FA;
+  margin-top: 12px;
+  padding: 15px;
+  height: 260px;
+  overflow-y: auto;
+  border-radius: 8px;
 }
+
+/* Mensagem do usuário */
+.chat-usuario p {
+  background: #1A4F7A;
+  color: #FFFFFF;
+  padding: 10px 14px;
+  border-radius: 12px;
+  width: fit-content;
+  margin-left: auto;
+  margin-bottom: 12px;
+  max-width: 80%;
+}
+
+/* Mensagem do bot */
+.chat-bot p {
+  background: #E3E7EB;
+  color: #2A2A2A;
+  padding: 10px 14px;
+  border-radius: 12px;
+  width: fit-content;
+  margin-bottom: 12px;
+  max-width: 80%;
+}
+
+
+/* =======================================
+   INPUT + BOTÃO ENVIAR
+========================================== */
 
 .chat-input {
   display: flex;
   gap: 10px;
-  padding-top: 10px;
-  border-top: 1px solid #ccc;
-  background: #f1f1f1;
+  margin-top: 15px;
 }
 
 .chat-input input {
   flex: 1;
   padding: 10px;
-  font-size: 12px;
+  border-radius: 6px;
+  border: 2px solid rgba(26,79,122,0.25);
+  font-size: 0.95rem;
+  color: #2A2A2A;
 }
 
-.chat-input button {
-  padding: 10px 20px;
-  font-size: 12px;
+.chat-input input::placeholder {
+  color: #6A6A6A;
+}
+
+.chat-input input:focus {
+  border-color: #1A4F7A;
+}
+
+/* Botão ENVIAR */
+.btn-enviar {
+  background: #1A4F7A;           /* Azul petróleo */
+  color: #FFFFFF !important;
+  padding: 10px 18px;
+  border-radius: 6px;
+  font-weight: 600;
+  border: none;
   cursor: pointer;
+  transition: background 0.2s ease;
 }
 
-.chat-header {
-  width: 100%;
-  border-bottom: 1px solid #ccc;
-  background-color: lightgrey;
-  height: 50px;
-  justify-content: center;
+.btn-enviar:hover {
+  background: #163D5E;           /* Azul mais escuro */
 }
 
-.chat-header span {
-  margin-left: 2%;
-}
 
-.chat-usuario {
+/* =======================================
+   BOTÕES SECUNDÁRIOS
+========================================== */
+
+.botoes {
+  margin-top: 15px;
   display: flex;
-  flex-direction: row;
-  justify-content: right;
-}
-
-.chat-usuario p {
-  background-color: lightblue;
-}
-
-.chat-bot {
-  display: flex;
-  flex-direction: row;
-  justify-content: left;
-}
-
-.chat-bot p {
-  background-color: #f94f6d;
-}
-
-.chat .chat-box p,
-.chat button {
-  color: black;
-  padding: 15px 5px 15px 5px;
-  margin: 10px;
-  font-size: 14px;
-  border: 0;
-  box-shadow: 0px 3px black, 0px -3px black, 3px 0px black, -3px 0px black, 0px 10px #00000038,
-    3px 3px #00000038, -3px 3px #00000038, inset 0px 3px #ffffff36;
-}
-
-/* botoes adicionais  */
-
-/* Dropdown Menu */
-
-.botoes button {
-  cursor: pointer;
-  flex-direction: column;
-  justify-content: center;
+  gap: 10px;
   flex-wrap: wrap;
 }
 
-
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
-
-.resumo {
-  max-width: 60%;
-  margin: 0 auto;
-  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-
-}
-
-.cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-.cards_item {
-  display: flex;
-  padding: 1rem;
-}
-
-.cards_item {
-  filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.25));
-}
-
-
-.card {
-  background-color: white;
-  border-radius: 0.25rem;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  padding-left: 30px;
-  background: repeating-linear-gradient(#0000 0 calc(1.2rem - 1px), #66afe1 0 1.2rem) right bottom /100% 100%, linear-gradient(red 0 0) 30px 0/2px 100% #fff;
-  background-repeat: no-repeat;
-  line-height: 1.2rem;
-  --webkit-mask: radial-gradient(circle .8rem at 2px 50%, #0000 98%, #000)0 0/100% 2.4rem;
-}
-
-.card_content {
-  padding: 1.2rem;
-}
-
-h2.card_title,
-p {
-  margin: 1.2rem 0;
-}
-
-p.card_content {
-  font-weight: none;
-}
-
-h2.card_title {
-  font-size: 1.3em;
-  font-weight: bold;
-}
-
-.copy {
-  width: 20px;
-  height: 20px;
+.botoes button {
+  background: #28A745;           /* Verde positivo */
+  color: #FFFFFF;
+  padding: 10px 18px;
+  border-radius: 6px;
+  border: none;
+  font-weight: 600;
   cursor: pointer;
-  vertical-align: middle;
-  margin: 0 5px;
-  display: inline-block;
-  position: relative;
-  left: 90%;
+  transition: background 0.2s ease;
 }
 
-.spinner{
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 100%;
+.botoes button:hover {
+  background: #1F7D37;           /* Verde mais escuro */
+}
+
+
+/* =======================================
+   RESPONSIVIDADE
+========================================== */
+
+@media (max-width: 900px) {
+  .layout-dinamico.com-resumo {
+    flex-direction: column;
+  }
+
+  .layout-dinamico.com-resumo .resumo,
+  .layout-dinamico.com-resumo .chat {
+    width: 90%;
+  }
 }
