@@ -33,23 +33,3 @@ npm start
 ```
 
 E assim deve rodar normalmente aparecendo o link `http://localhost:4200/`, você pode entrar nele automaticamente via navegador ou com ctrl + click.
-
-
-
-## Rodando a api
-
-Entre na pasta "back-end", instale os módulos dela com o comando "npm install" e rode o seguinte comando para rodar a api:
-
-```bash
-node app.js
-```
-
-IMPORTANTE: Será necessário criar um projeto no Google AI Studio https://aistudio.google.com/ e obter uma chave de acesso para rodar conforme está aqui, o arquivo com a chave não deve ser versionado.
-
-Depois de criada a chave, criar um arquivo .env com as informações abaixo:
-
-```bash
-GEMINI_API_KEY=suachavedaapi
-PORT=3000
-```
-e deve funcionar!

@@ -1,6 +1,5 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
 import Swal from 'sweetalert2';
 
 @Injectable({
@@ -8,9 +7,7 @@ import Swal from 'sweetalert2';
 })
 export class Service {
 
-  constructor(private http: HttpClient) {}
-
-  private apiUrl = 'http://localhost:3000/api/finance';
+  constructor() {}
 
   emitirMensagem(titulo: string, texto: string, icon: 'success' | 'error' | 'warning' | 'info' | 'question') {
     return Swal.fire({
@@ -21,10 +18,6 @@ export class Service {
         popup: 'pop-up'
       }
     })
-  }
-
-    emitirResumo(data: any): Observable<any> {
-    return this.http.post<any>(this.apiUrl, data);
   }
 
 }

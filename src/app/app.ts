@@ -111,22 +111,32 @@ export class App {
           gasto: this.gastos,
         };
 
-        this.service.emitirResumo(infoFinanceira).subscribe({
-          next: (res) => {
 
-            this.zone.run(() => {
+        this.zone.run(() => {
 
-              this.resultado = res.resposta.replace(/\n/g, '<br>')
-              this.cdr.detectChanges();
-              console.log(this.resultado);
-              this.cdr.markForCheck();
-              this.carregando = false;
-            });
-          },
-          error: (err) => {
-            console.error('Erro na API:', err);
-          }
+          const totalReceita = infoFinanceira.receita.reduce((acc, r) => acc + r.valor, 0);
+          const totalGastos = infoFinanceira.gasto.reduce((acc, g) => acc + g.valor, 0);
+          const sobra = totalReceita - totalGastos;
+
+          // monta string de resumo
+          this.resultado = `
+      Ter um resumo sobre as suas finanças é importante para manter controle sobre seus gastos! Tenha a melhor experiência com finanças conosco.<br>
+      Somos um software inteiramente grátis à sua disposição.<br>
+      Geramos seu resultado!
+      <br>
+      <br>
+      Suas informações financeiras são<br>
+      <br>
+      Receita total: R$ ${totalReceita.toFixed(2)}<br>
+      Gastos totais: R$ ${totalGastos.toFixed(2)}<br>
+      Valor restante: R$ ${sobra.toFixed(2)}<br>
+      
+      
+    `;
+
+    this.carregando = false;
         });
+
       } else {
         this.pegarValores(infoUsuario, 'gasto');
       }
