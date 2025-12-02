@@ -1,4 +1,4 @@
-# ControleFinanceiro
+# Controle Financeiro
 
 Esse projeto está usando Angular na versão 20.3.9 e o Node na versão 22.15.1 
 
@@ -9,7 +9,7 @@ Baixar a versão referente a esse projeto ou a versão LTS no https://nodejs.org
 Instalar o Angular no computador 
 
 ```bash
-npm instal -g @angular/cli
+npm install -g @angular/cli
 ```
 
 Certifique-se de que o Angular foi instalado e que a variavel de ambiente tenha sido criada, conferir se foi instalado usando algum comando "ng", como exemplo:
