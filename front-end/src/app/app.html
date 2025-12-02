@@ -1,69 +1,72 @@
 <section class="barra">
   <app-stepper [passos]="passos"></app-stepper>
-  <!-- <app-progress-bar [progresso]="progresso"></app-progress-bar> -->
 </section>
 
-<main>
+<!-- CONTAINER DINÂMICO -->
+<div class="layout-dinamico" [class.com-resumo]="resultado !== ''">
 
-  <article class="resumo">
+  <!-- BLOCO DO RESUMO -->
+  <article class="resumo" *ngIf="resultado !== ''">
     <ul class="cards">
-      @if (resultado !== '') {
       <li class="cards_item">
-          <div class="card">
-            <div class="card_content">
-                <img class="copy" src="copy-clipboard.svg" alt="ícone copiar para área de transferência" (click)="copiarTexto(resultado)" />
-              <h2 class="card_title">Resumo do seu perfil</h2>
-              <div class="card_text">
-                <p [innerHTML]="resultado">{{resultado}}</p>
-              </div> 
-            </div>
-          </div>
-        </li>
-      }
+        <div class="card">
+          <div class="card_content">
 
-      @if(infos.length > 0){
-        <li class="cards_item">
-          <div class="card">
-            <div class="card_content">
-                @for(info of infos; track info) {
-                <h2 class="card_title">{{info.titulo}}</h2>
-                <div class="card_text">
-                  <p>{{info.texto}}
-                  </p>
-                </div>
-              }
-              </div>
+            <h2 class="card_title">
+              Resumo do seu perfil
+              <img class="copy" src="copy-clipboard.svg"
+                alt="ícone copiar para área de transferência"
+                (click)="copiarTexto(resultado)" />
+            </h2>
+
+            <div class="card_text">
+              <p [innerHTML]="resultado">{{resultado}}</p>
             </div>
-          </li>
-      }
+
+          </div>
+        </div>
+      </li>
+
+      <!-- Informações adicionais -->
+      <li class="cards_item" *ngIf="infos.length > 0">
+        <div class="card">
+          <div class="card_content">
+            <ng-container *ngFor="let info of infos">
+              <h2 class="card_title">{{info.titulo}}</h2>
+              <div class="card_text">
+                <p>{{info.texto}}</p>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+      </li>
+
     </ul>
   </article>
 
-  @if (carregando) {
-    <div class="spinner">
-      <mat-spinner></mat-spinner>
-    </div>
-  }
-
+  <!-- BLOCO DO AJUDANTE -->
   <div class="chat">
     <div class="chat-header">
-      <br />
-      <span>Ajudante</span>
+      <span class="chat-header-title">Ajudante</span>
     </div>
+
     <div class="chat-box" #chatBox>
-      @for (msg of msg; track msg) {
-      <div [ngClass]="msg.usuario === 'usuario' ? 'chat-usuario' : 'chat-bot'">
-        <p>
-          {{ msg.texto }}
-        </p>
-      </div>
-      }
+      <ng-container *ngFor="let msg of msg">
+        <div [ngClass]="msg.usuario === 'usuario' ? 'chat-usuario' : 'chat-bot'">
+          <p>{{ msg.texto }}</p>
+        </div>
+      </ng-container>
     </div>
+
     <div class="chat-input">
-      <input [(ngModel)]="digitarMensagem" type="text" placeholder="Digite seus dados"
-        (keydown.enter)="enviarInfos()" />
-      <button (click)="enviarInfos()">Enviar</button>
+      <input [(ngModel)]="digitarMensagem"
+             type="text"
+             placeholder="Digite seus dados"
+             (keydown.enter)="enviarInfos()" />
+
+      <button class="btn-enviar" (click)="enviarInfos()">Enviar</button>
     </div>
+
     <div class="botoes">
       <button (click)="valorInvestir()">Quanto posso investir?</button>
       <button (click)="divisaoValores()">Dividir 70/20/10</button>
@@ -71,4 +74,10 @@
     </div>
   </div>
 
-</main>
+</div>
+
+@if (carregando) {
+<div class="spinner">
+  <mat-spinner></mat-spinner>
+</div>
+}
