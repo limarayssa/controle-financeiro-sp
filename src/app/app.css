@@ -1,18 +1,59 @@
-/* ===============================
-   ESTILOS GERAIS
-================================= */
+/* =======================================
+   LAYOUT DINÂMICO
+   - Centraliza o Ajudante quando não há resumo
+   - Coloca Resumo + Ajudante lado a lado quando existir resumo
+========================================== */
+
+.layout-dinamico {
+  display: flex;
+  flex-direction: column;      /* Começa em coluna */
+  align-items: center;         /* Centraliza o Ajudante */
+  gap: 25px;
+  width: 100%;
+}
+
+/* Quando tiver resumo (resultado !== '') -> lado a lado */
+.layout-dinamico.com-resumo {
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+/* Largura padrão dos blocos */
+.resumo,
+.chat {
+  width: 90%;
+  max-width: 650px;
+}
+
+/* Quando estiver lado a lado, cada um ocupa ~metade */
+.layout-dinamico.com-resumo .resumo,
+.layout-dinamico.com-resumo .chat {
+  width: 45%;
+}
+
+
+/* =======================================
+   GERAL
+========================================== */
 
 body, main {
   background-color: #F5F7FA;
-  font-family: 'Inter', Arial, sans-serif;
+  font-family: "Inter", Arial, sans-serif;
   color: #2A2A2A;
-  margin: 0;
-  padding: 0;
 }
 
-/* ===============================
-   CARDS / RESUMO
-================================= */
+section.barra {
+  padding: 20px 0;
+  background: #FFFFFF;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  margin-bottom: 20px;
+}
+
+
+/* =======================================
+   CARDS (RESUMO)
+========================================== */
 
 .cards {
   list-style: none;
@@ -25,7 +66,7 @@ body, main {
 }
 
 .card {
-  background: #fff;
+  background: #FFFFFF;
   border-radius: 12px;
   padding: 20px;
   box-shadow: 0 3px 10px rgba(0,0,0,0.08);
@@ -34,63 +75,67 @@ body, main {
 .card_title {
   font-size: 1.4rem;
   font-weight: 700;
-  color: #1A4F7A;
-  margin-bottom: 8px;
+  color: #1A4F7A;          /* Azul petróleo */
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+/* Ícone de copiar pequeno e alinhado */
+.copy {
+  width: 22px;
+  height: 22px;
+  cursor: pointer;
+  opacity: 0.85;
+  transition: 0.2s ease;
+}
+
+.copy:hover {
+  opacity: 0.6;
+  transform: scale(1.08);
 }
 
 .card_text p {
-  font-size: 1rem;
+  margin-top: 6px;
   line-height: 1.5;
   color: #2A2A2A;
 }
 
-/* Ícone de copiar */
-.copy {
-  float: right;
-  cursor: pointer;
+
+/* =======================================
+   SPINNER
+========================================== */
+
+.spinner {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
 }
 
-/* ===============================
-   BARRA SUPERIOR (Receitas / Gastos / Análise)
-================================= */
 
-.resumo h2 {
-  color: #1A4F7A !important;
-}
-
-/* Se você tiver navegação superior, use isso: */
-.nav-item {
-  color: #2A2A2A;
-}
-
-.nav-item.selected {
-  color: #1A4F7A;
-  font-weight: 600;
-}
-
-/* ===============================
-   CHAT
-================================= */
+/* =======================================
+   CHAT / AJUDANTE
+========================================== */
 
 .chat {
-  background: #fff;
+  background: #FFFFFF;
   padding: 20px;
   border-radius: 12px;
   box-shadow: 0 3px 10px rgba(0,0,0,0.08);
-  margin-top: 20px;
 }
 
 .chat-header-title {
+  color: #1A4F7A;
   font-size: 1.3rem;
   font-weight: 700;
-  color: #1A4F7A;
 }
 
 .chat-box {
   background: #F5F7FA;
-  margin-top: 15px;
+  margin-top: 12px;
   padding: 15px;
-  height: 250px;
+  height: 260px;
   overflow-y: auto;
   border-radius: 8px;
 }
@@ -98,12 +143,13 @@ body, main {
 /* Mensagem do usuário */
 .chat-usuario p {
   background: #1A4F7A;
-  color: #fff;
+  color: #FFFFFF;
   padding: 10px 14px;
   border-radius: 12px;
   width: fit-content;
   margin-left: auto;
   margin-bottom: 12px;
+  max-width: 80%;
 }
 
 /* Mensagem do bot */
@@ -114,11 +160,13 @@ body, main {
   border-radius: 12px;
   width: fit-content;
   margin-bottom: 12px;
+  max-width: 80%;
 }
 
-/* ===============================
-   INPUT DO CHAT + BOTÃO ENVIAR
-================================= */
+
+/* =======================================
+   INPUT + BOTÃO ENVIAR
+========================================== */
 
 .chat-input {
   display: flex;
@@ -128,12 +176,15 @@ body, main {
 
 .chat-input input {
   flex: 1;
-  padding: 10px 12px;
+  padding: 10px;
   border-radius: 6px;
-  border: 2px solid rgba(26, 79, 122, 0.25);
-  outline: none;
-  font-size: 1rem;
+  border: 2px solid rgba(26,79,122,0.25);
+  font-size: 0.95rem;
   color: #2A2A2A;
+}
+
+.chat-input input::placeholder {
+  color: #6A6A6A;
 }
 
 .chat-input input:focus {
@@ -141,25 +192,25 @@ body, main {
 }
 
 /* Botão ENVIAR */
-.btn-enviar,
-.chat-input button {
-  background-color: #1A4F7A;
-  color: white !important;
-  border: none;
+.btn-enviar {
+  background: #1A4F7A;           /* Azul petróleo */
+  color: #FFFFFF !important;
   padding: 10px 18px;
-  font-weight: 600;
   border-radius: 6px;
+  font-weight: 600;
+  border: none;
   cursor: pointer;
+  transition: background 0.2s ease;
 }
 
-.btn-enviar:hover,
-.chat-input button:hover {
-  background-color: #163D5E;
+.btn-enviar:hover {
+  background: #163D5E;           /* Azul mais escuro */
 }
 
-/* ===============================
+
+/* =======================================
    BOTÕES SECUNDÁRIOS
-================================= */
+========================================== */
 
 .botoes {
   margin-top: 15px;
@@ -169,48 +220,32 @@ body, main {
 }
 
 .botoes button {
-  background-color: #28A745;
-  color: white;
+  background: #28A745;           /* Verde positivo */
+  color: #FFFFFF;
   padding: 10px 18px;
   border-radius: 6px;
   border: none;
-  cursor: pointer;
   font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease;
 }
 
 .botoes button:hover {
-  background-color: #1f7d37;
-}
-
-.copy {
-  width: 24px;     /* tamanho ideal */
-  height: 24px;    /* mantém proporção */
-  object-fit: contain;
-  cursor: pointer;
-  position: absolute;
-  top: 10px;
-  right: 10px;
+  background: #1F7D37;           /* Verde mais escuro */
 }
 
 
-/* ===============================
+/* =======================================
    RESPONSIVIDADE
-================================= */
+========================================== */
 
-@media (max-width: 768px) {
-  .cards_item {
-    width: 100%;
+@media (max-width: 900px) {
+  .layout-dinamico.com-resumo {
+    flex-direction: column;
   }
 
-  .chat {
-    padding: 15px;
-  }
-
-  .chat-box {
-    height: 200px;
-  }
-
-  .botoes button {
-    flex: 1;
+  .layout-dinamico.com-resumo .resumo,
+  .layout-dinamico.com-resumo .chat {
+    width: 90%;
   }
 }
