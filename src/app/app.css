@@ -5,10 +5,12 @@ main {
   height: 100vh;
   height: calc(100vh - 60px);
   font-family: Roboto;
+  background-color: #F5F7FA;
 }
 
 .barra {
   width: 70%;
+  background-color: #F5F7FA;
 }
 
 section.barra {
@@ -99,7 +101,7 @@ section.barra {
 }
 
 .chat-bot p {
-  background-color: #f94f6d;
+  background-color: #F5F7FA;
 }
 
 .chat p,
