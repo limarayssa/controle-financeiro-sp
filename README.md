@@ -33,5 +33,3 @@ npm start
 ```
 
 E assim deve rodar normalmente aparecendo o link `http://localhost:4200/`, você pode entrar nele automaticamente via navegador ou com ctrl + click.
-
-
