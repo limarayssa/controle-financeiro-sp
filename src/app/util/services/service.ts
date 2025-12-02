@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import Swal from 'sweetalert2';
 
@@ -5,6 +6,8 @@ import Swal from 'sweetalert2';
   providedIn: 'root',
 })
 export class Service {
+
+  constructor() {}
 
   emitirMensagem(titulo: string, texto: string, icon: 'success' | 'error' | 'warning' | 'info' | 'question') {
     return Swal.fire({

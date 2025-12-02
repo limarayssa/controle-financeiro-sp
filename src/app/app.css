@@ -1,203 +1,216 @@
-main {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  height: 100vh;
-  height: calc(100vh - 60px);
-  font-family: Roboto;
+/* ===============================
+   ESTILOS GERAIS
+================================= */
+
+body, main {
   background-color: #F5F7FA;
-}
-
-.barra {
-  width: 70%;
-  background-color: #F5F7FA;
-}
-
-section.barra {
-  width: 100%;
-}
-
-.chat {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 20px;
-  height: 50vh;
-  /* border-left: 2px solid #ccc; */
-  background-color: #f9f9f9;
-  width: 30%;
-  max-width: 30%;
-  max-height: 500px;
-  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-}
-
-@media only screen and (max-width: 1100px) {
-  .chat {
-    width: 50%;
-  }
-}
-
-.chat-box {
-  flex: 1;
-  overflow-y: scroll;
-  margin-bottom: 10px;
-  background: white;
-  border: 1px solid #ccc;
-  border-radius: 3px;
-  display: flex;
-  flex-direction: column;
-  padding: 10px;
-}
-
-.chat-input {
-  display: flex;
-  gap: 10px;
-  padding-top: 10px;
-  border-top: 1px solid #ccc;
-  background: #f1f1f1;
-}
-
-.chat-input input {
-  flex: 1;
-  padding: 10px;
-  font-size: 12px;
-  /* font-family: Roboto; */
-}
-
-.chat-input button {
-  padding: 10px 20px;
-  /* font-family: Roboto; */
-  font-size: 12px;
-  cursor: pointer;
-}
-
-.chat-header {
-  width: 100%;
-  border-bottom: 1px solid #ccc;
-  background-color: lightgrey;
-  height: 50px;
-  justify-content: center;
-}
-
-.chat-header span {
-  margin-left: 2%;
-}
-
-.chat-usuario {
-  display: flex;
-  flex-direction: row;
-  justify-content: right;
-}
-
-.chat-usuario p {
-  background-color: lightblue;
-}
-
-.chat-bot {
-  display: flex;
-  flex-direction: row;
-  justify-content: left;
-}
-
-.chat-bot p {
-  background-color: #F5F7FA;
-}
-
-.chat p,
-button {
-  color: black;
-  padding: 15px 5px 15px 5px;
-  margin: 10px;
-  font-size: 14px;
-  border: 0;
-  box-shadow: 0px 3px black, 0px -3px black, 3px 0px black, -3px 0px black, 0px 10px #00000038,
-    3px 3px #00000038, -3px 3px #00000038, inset 0px 3px #ffffff36;
-}
-
-/* botoes adicionais  */
-
-/* Dropdown Menu */
-
-.botoes button {
-  cursor: pointer;
-  flex-direction: column;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-
-/* 
-.resumo {
-  width: 30%;
-  background: #eef;
-  padding: 20px;
-  margin:8%;
-  height: 70%;
-  /* opacity: 0; */
-/* transform: translateX(-100%);
-  transition: all 0.5s ease; }
-  
-*/
-
-
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
-
-.resumo {
-  max-width: 1200px;
-  margin: 0 auto;
-  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-
-}
-
-.cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  list-style: none;
+  font-family: 'Inter', Arial, sans-serif;
+  color: #2A2A2A;
   margin: 0;
   padding: 0;
 }
 
-.cards_item {
-  display: flex;
-  padding: 1rem;
+/* ===============================
+   CARDS / RESUMO
+================================= */
+
+.cards {
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
 .cards_item {
-  filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.25));
+  margin-bottom: 20px;
 }
-
 
 .card {
-  background-color: white;
-  border-radius: 0.25rem;
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+}
+
+.card_title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #1A4F7A;
+  margin-bottom: 8px;
+}
+
+.card_text p {
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #2A2A2A;
+}
+
+/* Ícone de copiar */
+.copy {
+  float: right;
+  cursor: pointer;
+}
+
+/* ===============================
+   BARRA SUPERIOR (Receitas / Gastos / Análise)
+================================= */
+
+.resumo h2 {
+  color: #1A4F7A !important;
+}
+
+/* Se você tiver navegação superior, use isso: */
+.nav-item {
+  color: #2A2A2A;
+}
+
+.nav-item.selected {
+  color: #1A4F7A;
+  font-weight: 600;
+}
+
+/* ===============================
+   CHAT
+================================= */
+
+.chat {
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+  margin-top: 20px;
+}
+
+.chat-header-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #1A4F7A;
+}
+
+.chat-box {
+  background: #F5F7FA;
+  margin-top: 15px;
+  padding: 15px;
+  height: 250px;
+  overflow-y: auto;
+  border-radius: 8px;
+}
+
+/* Mensagem do usuário */
+.chat-usuario p {
+  background: #1A4F7A;
+  color: #fff;
+  padding: 10px 14px;
+  border-radius: 12px;
+  width: fit-content;
+  margin-left: auto;
+  margin-bottom: 12px;
+}
+
+/* Mensagem do bot */
+.chat-bot p {
+  background: #E3E7EB;
+  color: #2A2A2A;
+  padding: 10px 14px;
+  border-radius: 12px;
+  width: fit-content;
+  margin-bottom: 12px;
+}
+
+/* ===============================
+   INPUT DO CHAT + BOTÃO ENVIAR
+================================= */
+
+.chat-input {
   display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  padding-left: 30px;
-  background: repeating-linear-gradient(#0000 0 calc(1.2rem - 1px), #66afe1 0 1.2rem) right bottom /100% 100%, linear-gradient(red 0 0) 30px 0/2px 100% #fff;
-  background-repeat: no-repeat;
-  line-height: 1.2rem;
-  --webkit-mask: radial-gradient(circle .8rem at 2px 50%, #0000 98%, #000)0 0/100% 2.4rem;
+  gap: 10px;
+  margin-top: 15px;
 }
 
-.card_content {
-  padding: 1.2rem;
+.chat-input input {
+  flex: 1;
+  padding: 10px 12px;
+  border-radius: 6px;
+  border: 2px solid rgba(26, 79, 122, 0.25);
+  outline: none;
+  font-size: 1rem;
+  color: #2A2A2A;
 }
 
-h2.card_title,
-p {
-  margin: 1.2rem 0;
+.chat-input input:focus {
+  border-color: #1A4F7A;
 }
 
-p.card_content {
-  font-weight: none;
+/* Botão ENVIAR */
+.btn-enviar,
+.chat-input button {
+  background-color: #1A4F7A;
+  color: white !important;
+  border: none;
+  padding: 10px 18px;
+  font-weight: 600;
+  border-radius: 6px;
+  cursor: pointer;
 }
 
-h2.card_title {
-  font-size: 1.3em;
-  font-weight: bold;
+.btn-enviar:hover,
+.chat-input button:hover {
+  background-color: #163D5E;
+}
+
+/* ===============================
+   BOTÕES SECUNDÁRIOS
+================================= */
+
+.botoes {
+  margin-top: 15px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.botoes button {
+  background-color: #28A745;
+  color: white;
+  padding: 10px 18px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.botoes button:hover {
+  background-color: #1f7d37;
+}
+
+.copy {
+  width: 24px;     /* tamanho ideal */
+  height: 24px;    /* mantém proporção */
+  object-fit: contain;
+  cursor: pointer;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+
+/* ===============================
+   RESPONSIVIDADE
+================================= */
+
+@media (max-width: 768px) {
+  .cards_item {
+    width: 100%;
+  }
+
+  .chat {
+    padding: 15px;
+  }
+
+  .chat-box {
+    height: 200px;
+  }
+
+  .botoes button {
+    flex: 1;
+  }
 }
