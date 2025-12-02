@@ -1,6 +1,8 @@
 # Controle Financeiro
 
-Esse projeto está usando Angular na versão 20.3.9 e o Node na versão 22.15.1 
+Esse projeto está usando Angular na versão 20.3.9 e o Node na versão 22.15.1, confira ele funcionando:
+
+https://youtu.be/kUdg2xLbIEk
 
 ## Ambientação para o projeto
 
